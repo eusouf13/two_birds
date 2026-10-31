@@ -55,7 +55,11 @@ class RideDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 48), // Balance leading back button
+                  IconButton(
+                    icon: const Icon(Icons.home_rounded, color: AppColors.white, size: 24),
+                    tooltip: 'Home',
+                    onPressed: () => Get.offAllNamed(AppRoutes.homeScreen),
+                  ),
                 ],
               ),
             ),
@@ -98,33 +102,51 @@ class RideDetailsScreen extends StatelessWidget {
               ),
             ),
 
-            // Bottom CTA Button: "Share Ride Details"
+            // Bottom CTA Buttons
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-              child: SizedBox(
-                width: double.infinity,
-                height: 54,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _showShareBottomSheet(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: const Color(0xFF042F2C),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(27),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    height: 54,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _showShareBottomSheet(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: const Color(0xFF042F2C),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(27),
+                        ),
+                      ),
+                      child: Text(
+                        'Share Ride Details',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF042F2C),
+                        ),
+                      ),
                     ),
                   ),
-                  child: Text(
-                    'Share Ride Details',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF042F2C),
+                  const SizedBox(height: 6),
+                  TextButton.icon(
+                    onPressed: () => Get.offAllNamed(AppRoutes.homeScreen),
+                    icon: const Icon(Icons.home_outlined, color: AppColors.grey_03, size: 20),
+                    label: Text(
+                      'Back to Home',
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.grey_03,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
           ],
