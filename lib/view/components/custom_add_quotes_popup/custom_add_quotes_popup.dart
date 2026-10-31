@@ -1,0 +1,96 @@
+// ignore_for_file: sized_box_for_whitespace
+
+import 'package:flutter/material.dart';
+
+import '../../../utils/app_colors/app_colors.dart';
+import '../custom_button/custom_button.dart';
+import '../custom_text/custom_text.dart';
+import '../custom_text_field/custom_text_field.dart';
+
+class CustomAddQuotesPopup extends StatelessWidget {
+  const CustomAddQuotesPopup({
+    super.key,
+    required this.addQuotesController,
+    required this.cancelButton,
+    required this.submitButton,
+  });
+
+  final TextEditingController addQuotesController;
+  final VoidCallback cancelButton;
+  final VoidCallback submitButton;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ///======================== Add Daliy Goal ===========================
+        const CustomText(
+          textAlign: TextAlign.start,
+          text: "",
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+          // color: AppColors.black_50,
+        ),
+        SizedBox(height: 10),
+
+        ///======================== Line Border ===========================
+        Container(
+          height: 1,
+          width: MediaQuery.of(context).size.width,
+          //color: AppColors.grey1,
+        ),
+        SizedBox(height: 10),
+
+        ///======================== Add New Goal ===========================
+        CustomTextField(
+          fieldBorderRadius: 10,
+          //fieldBorderColor: AppColors.grey1,
+          //fillColor: AppColors.white_50,
+          //hintText: AppStrings.addQuotes,
+          textEditingController: addQuotesController,
+        ),
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ///======================== Cancel Button ===========================
+            CustomButton(
+              onTap: () {
+                Navigator.pop(context);
+
+                cancelButton();
+              },
+              // title: AppStrings.cancel,
+              isBorder: true,
+              height: 40,
+              width: 80,
+              fontSize: 14,
+              fillColor: AppColors.white,
+              borderRadius: 15,
+              borderWidth: 1,
+              //textColor: AppColors.black_50,
+            ),
+            SizedBox(width: 10),
+
+            ///======================== Submit Button ===========================
+            CustomButton(
+              onTap: () {
+                submitButton();
+              },
+              // title: AppStrings.submit,
+              height: 40,
+              width: 80,
+              fontSize: 14,
+              //fillColor: AppColors.softlimegreen,
+              borderRadius: 15,
+              borderWidth: 2,
+              textColor: AppColors.white,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
