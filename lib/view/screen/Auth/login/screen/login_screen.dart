@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 36),
               LoginFormWidget(
                 onLoginSuccess: () {
-                  Get.offAllNamed(AppRoutes.homeScreen);
+                  Get.offAllNamed(AppRoutes.profileSetupScreen);
                 },
               ),
             ],

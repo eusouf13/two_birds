@@ -12,21 +12,31 @@ class RideBuddyCardWidget extends StatelessWidget {
   final String routeComparison;
   final String matchScore;
   final String imagePath;
+  final List<Map<String, dynamic>>? interests;
 
   const RideBuddyCardWidget({
     super.key,
-    this.name = 'Sarah',
-    this.age = 26,
-    this.role = 'Marketing @ Tech Co',
-    this.destination = 'Headed to Williamsburg',
-    this.timeAndService = 'Around 6:30 PM • UberX',
+    this.name = 'Jasmine',
+    this.age = 27,
+    this.role = 'Product Designer',
+    this.destination = 'Heading to Arlington',
+    this.timeAndService = 'Today at 6:30 PM',
     this.routeComparison = 'Similar route • 5 min apart',
     this.matchScore = '87% match',
     this.imagePath = AppImages.sarah,
+    this.interests,
   });
 
   @override
   Widget build(BuildContext context) {
+    final displayInterests = interests ??
+        const [
+          {'label': 'Travel', 'icon': Icons.flight_rounded},
+          {'label': 'Music', 'icon': Icons.music_note_rounded},
+          {'label': 'Fitness', 'icon': Icons.fitness_center_rounded},
+          {'label': 'Foodie', 'icon': Icons.restaurant_rounded},
+        ];
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -93,7 +103,7 @@ class RideBuddyCardWidget extends StatelessWidget {
             left: 0,
             right: 0,
             bottom: 0,
-            height: 240,
+            height: 250,
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -101,8 +111,8 @@ class RideBuddyCardWidget extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withValues(alpha: 0.55),
-                    Colors.black.withValues(alpha: 0.88),
+                    Colors.black.withValues(alpha: 0.45),
+                    Colors.black.withValues(alpha: 0.85),
                     const Color(0xFF08131C).withValues(alpha: 0.98),
                   ],
                   stops: const [0.0, 0.35, 0.7, 1.0],
@@ -111,7 +121,7 @@ class RideBuddyCardWidget extends StatelessWidget {
             ),
           ),
 
-          // User Information Overlay
+          // User Information Overlay (Image 1 layout)
           Positioned(
             left: 20,
             right: 20,
@@ -120,81 +130,91 @@ class RideBuddyCardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Name & Age
+                // Name & Age + Verified Badge
+                Row(
+                  children: [
+                    Text(
+                      '$name, $age',
+                      style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    const Icon(
+                      Icons.verified,
+                      color: AppColors.primary,
+                      size: 22,
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 4),
+
+                // Heading to destination
                 Text(
-                  '$name, $age',
+                  destination,
                   style: GoogleFonts.poppins(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
                     color: AppColors.white,
                   ),
                 ),
 
                 const SizedBox(height: 2),
 
-                // Job / Role
+                // Today at time
                 Text(
-                  role,
+                  timeAndService,
                   style: GoogleFonts.poppins(
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: FontWeight.w400,
                     color: AppColors.grey_03,
                   ),
                 ),
 
-                const SizedBox(height: 14),
+                const SizedBox(height: 12),
 
-                // Destination Info
-                Row(
-                  children: [
-                    Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.navigation_rounded,
-                        color: AppColors.primary,
-                        size: 14,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        destination,
-                        style: GoogleFonts.poppins(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.white,
+                // Interest Pills Row (Travel, Music, Fitness, Foodie)
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Row(
+                    children: displayInterests.map((item) {
+                      return Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 11, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0E1C28).withValues(alpha: 0.85),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: const Color(0xFF1F3345),
+                            width: 1,
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(left: 32, top: 2),
-                  child: Text(
-                    timeAndService,
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.grey_03,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                // Route comparison footer
-                Text(
-                  routeComparison,
-                  style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.grey_03,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              item['icon'] as IconData,
+                              size: 13,
+                              color: AppColors.white,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              item['label'] as String,
+                              style: GoogleFonts.poppins(
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
               ],

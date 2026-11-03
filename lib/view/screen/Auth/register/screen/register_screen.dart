@@ -30,8 +30,8 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox(height: 28),
               RegisterFormWidget(
                 onRegisterSuccess: () {
-                  // After successful sign up, go to HomeScreen
-                  Get.offAllNamed(AppRoutes.homeScreen);
+                  // After successful sign up, go to Profile Setup flow
+                  Get.offAllNamed(AppRoutes.profileSetupScreen);
                 },
               ),
             ],

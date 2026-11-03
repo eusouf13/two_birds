@@ -61,12 +61,12 @@ class _RideBuddiesScreenState extends State<RideBuddiesScreen> {
               ),
             ),
 
-            // Action Buttons (Pass, Info, Like)
+            // Action Buttons (Pass, SuperLike/Star, Like)
             RideBuddyActionButtonsWidget(
               onPass: () {
                 Get.toNamed(AppRoutes.homeScreen);
               },
-              onInfo: () {
+              onSuperLike: () {
                 Get.toNamed(AppRoutes.buddyDetailsScreen);
               },
               onLike: () {

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <radialGradient id="ig-radial" cx="30%" cy="105%" r="120%">
+      <stop offset="0%" stop-color="#FFDD55"/>
+      <stop offset="10%" stop-color="#FFDD55"/>
+      <stop offset="50%" stop-color="#FF543E"/>
+      <stop offset="70%" stop-color="#C837AB"/>
+      <stop offset="100%" stop-color="#3771C8"/>
+    </radialGradient>
+    <linearGradient id="ig-linear" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4F5BD5"/>
+      <stop offset="35%" stop-color="#962FBF"/>
+      <stop offset="70%" stop-color="#D62976"/>
+      <stop offset="85%" stop-color="#FA7E1E"/>
+      <stop offset="100%" stop-color="#FEDA75"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="14" fill="url(#ig-linear)"/>
+  <rect x="12" y="12" width="24" height="24" rx="7" fill="none" stroke="#FFFFFF" stroke-width="2.3"/>
+  <circle cx="24" cy="24" r="5.6" fill="none" stroke="#FFFFFF" stroke-width="2.3"/>
+  <circle cx="30.2" cy="17.8" r="1.4" fill="#FFFFFF"/>
+</svg>
+

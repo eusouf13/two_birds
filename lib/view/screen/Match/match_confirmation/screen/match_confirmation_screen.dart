@@ -39,8 +39,9 @@ class MatchConfirmationScreen extends StatelessWidget {
                 MatchConfirmationActionsWidget(
                   onSendMessage: () {
                     Get.toNamed(AppRoutes.chatInboxScreen, arguments: {
-                      'name': 'Sarah',
+                      'name': 'Jasmine, 27',
                       'avatar': AppImages.sarah,
+                      'status': 'Online',
                     });
                   },
                   onViewRideDetails: () {

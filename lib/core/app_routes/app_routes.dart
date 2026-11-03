@@ -20,12 +20,14 @@ import '../../view/screen/Ride/ride_details/screen/ride_details_screen.dart';
 import '../../view/screen/Match/ride_buddies/screen/ride_buddies_screen.dart';
 import '../../view/screen/Match/ride_buddies/screen/buddy_details_screen.dart';
 import '../../view/screen/Match/match_confirmation/screen/match_confirmation_screen.dart';
+import '../../view/screen/ProfileSetup/screen/profile_setup_screen.dart';
 
 class AppRoutes {
   static const String welcomeScreen = '/welcomeScreen';
   static const String onboardingScreen = '/onboardingScreen';
   static const String loginScreen = '/loginScreen';
   static const String registerScreen = '/registerScreen';
+  static const String profileSetupScreen = '/profileSetupScreen';
   static const String homeScreen = '/homeScreen';
   static const String messagesScreen = '/messagesScreen';
   static const String chatInboxScreen = '/chatInboxScreen';
@@ -54,6 +56,7 @@ class AppRoutes {
     GetPage(name: onboardingScreen, page: () => const OnboardingScreen()),
     GetPage(name: loginScreen, page: () => const LoginScreen()),
     GetPage(name: registerScreen, page: () => const RegisterScreen()),
+    GetPage(name: profileSetupScreen, page: () => const ProfileSetupScreen()),
     GetPage(name: homeScreen, page: () => const HomeScreen()),
     GetPage(name: messagesScreen, page: () => const MessagesScreen()),
     GetPage(name: chatInboxScreen, page: () => const ChatInboxScreen()),

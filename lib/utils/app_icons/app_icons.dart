@@ -9,4 +9,6 @@ class AppIcons {
   static const String clock = '$basePath/clock.svg';
   static const String pin = '$basePath/pin.svg';
   static const String eyeOff = '$basePath/eye_off.svg';
+  static const String instagram = '$basePath/instagram.svg';
+  static const String tiktok = '$basePath/tiktok.svg';
 }
