@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../../controllers/ride_schedule_controller.dart';
+import '../../../../../core/app_routes/app_routes.dart';
 import '../../../../../utils/app_colors/app_colors.dart';
 
 class HomeSearchCommuteCard extends StatefulWidget {
@@ -20,6 +23,62 @@ class _HomeSearchCommuteCardState extends State<HomeSearchCommuteCard> {
   // শুরুতে কোনো টেক্সট থাকবে না
   final _pickupController = TextEditingController();
   final _destinationController = TextEditingController();
+  String _scheduledTime = 'Today, 6:30 PM';
+
+  Future<void> _selectScheduleTime(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 30)),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: const ColorScheme.dark(
+              primary: AppColors.primary,
+              surface: Color(0xFF13222E),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null && context.mounted) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: const TimeOfDay(hour: 18, minute: 30),
+        builder: (context, child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: const ColorScheme.dark(
+                primary: AppColors.primary,
+                surface: Color(0xFF13222E),
+              ),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (pickedTime != null) {
+        final isToday = pickedDate.day == now.day &&
+            pickedDate.month == now.month &&
+            pickedDate.year == now.year;
+        final isTomorrow = pickedDate.day == now.add(const Duration(days: 1)).day;
+        final dayStr = isToday
+            ? 'Today'
+            : isTomorrow
+                ? 'Tomorrow'
+                : '${pickedDate.month}/${pickedDate.day}';
+
+        setState(() {
+          _scheduledTime = '$dayStr, ${pickedTime.format(context)}';
+        });
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -152,12 +211,61 @@ class _HomeSearchCommuteCardState extends State<HomeSearchCommuteCard> {
           ),
           const SizedBox(height: 8),
 
+          // Schedule for Later Selector
+          GestureDetector(
+            onTap: () => _selectScheduleTime(context),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: const Color(0xFF0C1722),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: const Color(0xFF1E3243), width: 1),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.schedule_rounded, color: AppColors.primary, size: 18),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Schedule: ',
+                    style: GoogleFonts.poppins(color: AppColors.grey_03, fontSize: 12),
+                  ),
+                  Text(
+                    _scheduledTime,
+                    style: GoogleFonts.poppins(color: AppColors.white, fontSize: 12, fontWeight: FontWeight.w600),
+                  ),
+                  const Spacer(),
+                  const Icon(Icons.arrow_drop_down, color: AppColors.grey_03),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
+
           // Search Shared Rides CTA Button
           SizedBox(
             width: double.infinity,
             height: 50,
             child: ElevatedButton.icon(
-              onPressed: widget.onSearch,
+              onPressed: () {
+                final pickup = _pickupController.text.trim().isEmpty
+                    ? 'Dupont Circle, DC'
+                    : _pickupController.text.trim();
+                final destination = _destinationController.text.trim().isEmpty
+                    ? 'Arlington, VA'
+                    : _destinationController.text.trim();
+
+                RideScheduleController.to.addScheduledRide(
+                  pickup: pickup,
+                  destination: destination,
+                  scheduledTime: _scheduledTime,
+                );
+
+                Get.toNamed(AppRoutes.rideBuddiesScreen, arguments: {
+                  'pickup': pickup,
+                  'destination': destination,
+                  'scheduledTime': _scheduledTime,
+                });
+              },
               icon: const Icon(Icons.directions_car_rounded, size: 20),
               label: Text(
                 'Find Shared Rides',

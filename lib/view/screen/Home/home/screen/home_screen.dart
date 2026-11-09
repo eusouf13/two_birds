@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/app_routes/app_routes.dart';
 import '../../../../../utils/app_colors/app_colors.dart';
-import '../../../Messages/screen/messages_screen.dart';
+import '../../../Match/matches/screen/matches_screen.dart';
 import '../../../Profile/screen/profile_screen.dart';
+import '../../../Ride/ride_search/screen/ride_search_screen.dart';
 import '../widget/home_header_widget.dart';
 import '../widget/home_nearby_buddies_widget.dart';
 import '../widget/home_quick_routes_widget.dart';
+import '../widget/home_scheduled_rides_widget.dart';
 import '../widget/home_search_commute_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
         index: _currentNavIndex,
         children: [
           _buildCommuteTab(),
-          const MessagesScreen(),
+          const RideSearchScreen(),
+          const MatchesScreen(),
           const ProfileScreen(),
         ],
       ),
@@ -47,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
             // Top Header with greeting & profile
             HomeHeaderWidget(
               onProfileTap: () {
-                setState(() => _currentNavIndex = 2);
+                setState(() => _currentNavIndex = 3);
               },
               onNotificationTap: () {
                 Get.snackbar(
                   'Notifications',
-                  'Sarah shared a ride to Williamsburg at 6:30 PM!',
+                  'Jasmine shared a ride to Arlington at 6:30 PM!',
                   snackPosition: SnackPosition.TOP,
                   backgroundColor: const Color(0xFF13222E),
                   colorText: AppColors.white,
@@ -62,14 +65,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 20),
 
-            // Commute Search Box (Pickup + Destination) -> Navigates to RideSearchScreen
+            // Commute Search Box (Pickup + Destination + Schedule)
             HomeSearchCommuteCard(
               onSearch: () {
                 Get.toNamed(AppRoutes.rideSearchScreen);
               },
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
+
+            // Scheduled Rides Section (Saved & Upcoming Rides)
+            const HomeScheduledRidesWidget(),
 
             // Active Commuters Nearby
             const HomeNearbyBuddiesWidget(),
@@ -86,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Modern Dark Styled Bottom Navigation Bar
+  // Modern Dark Styled Bottom Navigation Bar (4 tabs matching Screenshot 2)
   Widget _buildBottomNavBar() {
     return Container(
       decoration: const BoxDecoration(
@@ -103,18 +109,25 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               _buildNavItem(
                 index: 0,
-                icon: Icons.directions_car_rounded,
-                label: 'Commute',
+                icon: Icons.home_outlined,
+                activeIcon: Icons.home_rounded,
+                label: 'Home',
               ),
               _buildNavItem(
                 index: 1,
-                icon: Icons.chat_bubble_outline_rounded,
-                activeIcon: Icons.chat_bubble_rounded,
-                label: 'Messages',
-                badgeCount: 2,
+                icon: Icons.search_rounded,
+                activeIcon: Icons.search_rounded,
+                label: 'Discover',
               ),
               _buildNavItem(
                 index: 2,
+                icon: Icons.favorite_border_rounded,
+                activeIcon: Icons.favorite_rounded,
+                label: 'Matches',
+                badgeCount: 1,
+              ),
+              _buildNavItem(
+                index: 3,
                 icon: Icons.person_outline_rounded,
                 activeIcon: Icons.person_rounded,
                 label: 'Profile',
@@ -134,13 +147,12 @@ class _HomeScreenState extends State<HomeScreen> {
     int badgeCount = 0,
   }) {
     final isSelected = _currentNavIndex == index;
-    return GestureDetector(
-      onTap: () {
-        setState(() => _currentNavIndex = index);
-      },
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: 80,
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          setState(() => _currentNavIndex = index);
+        },
+        behavior: HitTestBehavior.opaque,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -189,4 +201,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

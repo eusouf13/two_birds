@@ -17,6 +17,15 @@ class RideBuddiesScreen extends StatefulWidget {
 class _RideBuddiesScreenState extends State<RideBuddiesScreen> {
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments as Map<String, dynamic>?;
+    final rawDestination = args?['destination'] as String?;
+    final destination = rawDestination != null && rawDestination.isNotEmpty
+        ? (rawDestination.toLowerCase().startsWith('heading to')
+            ? rawDestination
+            : 'Heading to $rawDestination')
+        : 'Heading to Arlington';
+    final scheduledTime = (args?['scheduledTime'] as String?) ?? 'Today at 6:30 PM';
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -56,7 +65,10 @@ class _RideBuddiesScreenState extends State<RideBuddiesScreen> {
                   onTap: () {
                     Get.toNamed(AppRoutes.buddyDetailsScreen);
                   },
-                  child: const RideBuddyCardWidget(),
+                  child: RideBuddyCardWidget(
+                    destination: destination,
+                    timeAndService: scheduledTime,
+                  ),
                 ),
               ),
             ),
@@ -64,14 +76,17 @@ class _RideBuddiesScreenState extends State<RideBuddiesScreen> {
             // Action Buttons (Pass, SuperLike/Star, Like)
             RideBuddyActionButtonsWidget(
               onPass: () {
-                Get.toNamed(AppRoutes.homeScreen);
+                Get.back();
               },
               onSuperLike: () {
                 Get.toNamed(AppRoutes.buddyDetailsScreen);
               },
               onLike: () {
                 // Navigate to match confirmation celebration!
-                Get.toNamed(AppRoutes.matchConfirmationScreen);
+                Get.toNamed(AppRoutes.matchConfirmationScreen, arguments: {
+                  'destination': destination,
+                  'scheduledTime': scheduledTime,
+                });
               },
             ),
 
@@ -82,4 +97,3 @@ class _RideBuddiesScreenState extends State<RideBuddiesScreen> {
     );
   }
 }
-

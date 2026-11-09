@@ -49,8 +49,8 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   bool _isTikTokConnected = true;
   bool _showSocialLinksToMatches = true;
 
-  // Step 5 Connection Intent state
-  String _selectedIntent = 'Dating';
+  // Step 5 Connection Intent state (Allows choosing more than one option)
+  final Set<String> _selectedIntents = {'Dating', 'Friendship'};
 
   @override
   void dispose() {
@@ -213,11 +213,19 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       },
                     ),
 
-                    // Step 5: What Brings You to Two Birds? (Intent)
+                    // Step 5: What Brings You to Two Birds? (Intent - Multi-select)
                     StepIntentWidget(
-                      selectedIntent: _selectedIntent,
-                      onSelectIntent: (intent) {
-                        setState(() => _selectedIntent = intent);
+                      selectedIntents: _selectedIntents,
+                      onToggleIntent: (intent) {
+                        setState(() {
+                          if (_selectedIntents.contains(intent)) {
+                            if (_selectedIntents.length > 1) {
+                              _selectedIntents.remove(intent);
+                            }
+                          } else {
+                            _selectedIntents.add(intent);
+                          }
+                        });
                       },
                     ),
                   ],

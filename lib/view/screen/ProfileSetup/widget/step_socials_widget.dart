@@ -220,7 +220,7 @@ class _StepSocialsWidgetState extends State<StepSocialsWidget> {
                 Switch(
                   value: widget.showSocialLinksToMatches,
                   onChanged: widget.onToggleShowSocials,
-                  activeColor: AppColors.primary,
+                  focusColor: AppColors.primary,
                   activeTrackColor: AppColors.primary.withValues(alpha: 0.35),
                   inactiveThumbColor: AppColors.greyLight,
                   inactiveTrackColor: const Color(0xFF1A2A38),

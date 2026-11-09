@@ -122,7 +122,7 @@ class _RideOptionsScreenState extends State<RideOptionsScreen> {
                 height: 54,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.toNamed(AppRoutes.rideBuddiesScreen);
+                    Get.toNamed(AppRoutes.rideBuddiesScreen, arguments: Get.arguments);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../../controllers/ride_schedule_controller.dart';
 import '../../../../../core/app_routes/app_routes.dart';
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../utils/app_strings/app_strings.dart';
@@ -21,9 +22,13 @@ class _RideSearchScreenState extends State<RideSearchScreen> {
   String _leaveTime = 'Today, 6:30 PM';
 
   Future<void> _selectTime() async {
-    final TimeOfDay? picked = await showTimePicker(
+    final DateTime now = DateTime.now();
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialTime: const TimeOfDay(hour: 18, minute: 30),
+      initialDate: now,
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 30)),
+      helpText: 'SCHEDULE RIDE FOR LATER',
       builder: (context, child) {
         return Theme(
           data: ThemeData.dark().copyWith(
@@ -36,10 +41,49 @@ class _RideSearchScreenState extends State<RideSearchScreen> {
         );
       },
     );
-    if (picked != null) {
-      setState(() {
-        _leaveTime = 'Today, ${picked.format(context)}';
-      });
+
+    if (pickedDate != null && mounted) {
+      final TimeOfDay? picked = await showTimePicker(
+        context: context,
+        initialTime: const TimeOfDay(hour: 18, minute: 30),
+        helpText: 'SELECT DEPARTURE TIME',
+        builder: (context, child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: const ColorScheme.dark(
+                primary: AppColors.primary,
+                surface: Color(0xFF13222E),
+              ),
+            ),
+            child: child!,
+          );
+        },
+      );
+      if (picked != null) {
+        final isToday = pickedDate.day == now.day &&
+            pickedDate.month == now.month &&
+            pickedDate.year == now.year;
+        final isTomorrow =
+            pickedDate.day == now.add(const Duration(days: 1)).day;
+        final dayStr = isToday
+            ? 'Today'
+            : isTomorrow
+                ? 'Tomorrow'
+                : '${pickedDate.month}/${pickedDate.day}';
+
+        setState(() {
+          _leaveTime = '$dayStr, ${picked.format(context)}';
+        });
+
+        Get.snackbar(
+          'Ride Scheduled',
+          'Searching for rides scheduled for $_leaveTime',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xFF13222E),
+          colorText: AppColors.white,
+          duration: const Duration(seconds: 2),
+        );
+      }
     }
   }
 
@@ -107,10 +151,23 @@ class _RideSearchScreenState extends State<RideSearchScreen> {
                 height: 54,
                 child: ElevatedButton(
                   onPressed: () {
+                    final rideArgs = {
+                      'pickup': 'New York, NY',
+                      'destination': 'Brooklyn, NY',
+                      'scheduledTime': _leaveTime,
+                    };
+
+                    // Persist to scheduled rides controller
+                    RideScheduleController.to.addScheduledRide(
+                      pickup: 'New York, NY',
+                      destination: 'Brooklyn, NY',
+                      scheduledTime: _leaveTime,
+                    );
+
                     if (isRideTab) {
-                      Get.toNamed(AppRoutes.rideOptionsScreen);
+                      Get.toNamed(AppRoutes.rideOptionsScreen, arguments: rideArgs);
                     } else {
-                      Get.toNamed(AppRoutes.rideBuddiesScreen);
+                      Get.toNamed(AppRoutes.rideBuddiesScreen, arguments: rideArgs);
                     }
                   },
                   style: ElevatedButton.styleFrom(

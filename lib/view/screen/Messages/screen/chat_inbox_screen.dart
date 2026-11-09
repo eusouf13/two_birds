@@ -251,7 +251,7 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
               child: CircleAvatar(
                 radius: 19,
                 backgroundImage: AssetImage(chatImage),
-                onBackgroundImageError: (_, __) {},
+                onBackgroundImageError: (error, stackTrace) {},
               ),
             ),
             const SizedBox(width: 10),

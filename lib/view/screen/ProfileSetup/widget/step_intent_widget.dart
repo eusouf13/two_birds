@@ -3,13 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../utils/app_colors/app_colors.dart';
 
 class StepIntentWidget extends StatefulWidget {
-  final String selectedIntent;
-  final ValueChanged<String> onSelectIntent;
+  final Set<String> selectedIntents;
+  final ValueChanged<String> onToggleIntent;
 
   const StepIntentWidget({
     super.key,
-    required this.selectedIntent,
-    required this.onSelectIntent,
+    required this.selectedIntents,
+    required this.onToggleIntent,
   });
 
   @override
@@ -43,10 +43,10 @@ class _StepIntentWidgetState extends State<StepIntentWidget> {
     final String title = option['title'];
     final String subtitle = option['subtitle'];
     final IconData icon = option['icon'];
-    final isSelected = widget.selectedIntent == id;
+    final isSelected = widget.selectedIntents.contains(id);
 
     return GestureDetector(
-      onTap: () => widget.onSelectIntent(id),
+      onTap: () => widget.onToggleIntent(id),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.only(bottom: 16),
@@ -126,7 +126,7 @@ class _StepIntentWidgetState extends State<StepIntentWidget> {
             ),
             const SizedBox(width: 12),
 
-            // Radio / Check Circle
+            // Checkbox / Selection Circle
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 24,
@@ -176,9 +176,9 @@ class _StepIntentWidgetState extends State<StepIntentWidget> {
           ),
           const SizedBox(height: 10),
 
-          // Subtitle
+          // Subtitle (Choose one or more connection intents)
           Text(
-            'Choose your connection intent. You can update this anytime.',
+            'Choose one or more connection intents. You can update this anytime.',
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
               fontSize: 13,
@@ -198,4 +198,3 @@ class _StepIntentWidgetState extends State<StepIntentWidget> {
     );
   }
 }
-

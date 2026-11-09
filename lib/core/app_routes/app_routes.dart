@@ -20,6 +20,7 @@ import '../../view/screen/Ride/ride_details/screen/ride_details_screen.dart';
 import '../../view/screen/Match/ride_buddies/screen/ride_buddies_screen.dart';
 import '../../view/screen/Match/ride_buddies/screen/buddy_details_screen.dart';
 import '../../view/screen/Match/match_confirmation/screen/match_confirmation_screen.dart';
+import '../../view/screen/Match/matches/screen/matches_screen.dart';
 import '../../view/screen/ProfileSetup/screen/profile_setup_screen.dart';
 
 class AppRoutes {
@@ -29,6 +30,7 @@ class AppRoutes {
   static const String registerScreen = '/registerScreen';
   static const String profileSetupScreen = '/profileSetupScreen';
   static const String homeScreen = '/homeScreen';
+  static const String matchesScreen = '/matchesScreen';
   static const String messagesScreen = '/messagesScreen';
   static const String chatInboxScreen = '/chatInboxScreen';
   static const String profileScreen = '/profileScreen';
@@ -58,6 +60,7 @@ class AppRoutes {
     GetPage(name: registerScreen, page: () => const RegisterScreen()),
     GetPage(name: profileSetupScreen, page: () => const ProfileSetupScreen()),
     GetPage(name: homeScreen, page: () => const HomeScreen()),
+    GetPage(name: matchesScreen, page: () => const MatchesScreen()),
     GetPage(name: messagesScreen, page: () => const MessagesScreen()),
     GetPage(name: chatInboxScreen, page: () => const ChatInboxScreen()),
     GetPage(name: profileScreen, page: () => const ProfileScreen()),
